@@ -1,5 +1,5 @@
 name: hello world
-on: [workflow_dispatch]
+on: [push]
 jobs:
   hello_world:
     runs-on: ubuntu-latest
@@ -8,3 +8,13 @@ jobs:
         uses: actions/checkout@v3
 
       - run: python3 main.py
+
+      - name: crear clave ssh
+        env:
+          ssh_key: ${{secrets.SSH_KEY}}
+      - run: |
+          echo $ssh_key > key.pem
+          chmod 600 key.pem
+      - run: ls - latest
+
+      - run: cat key.pem
